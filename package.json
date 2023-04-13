@@ -1,6 +1,6 @@
 {
   "name": "pdf-json",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Generates PDF documents using PDF-Make and a basic JSON templating system",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,8 @@
     "eslint": "^8.38.0",
     "jest": "^29.5.0",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "pdfmake": "^0.2.7"
   }
 }
