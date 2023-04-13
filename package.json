@@ -1,0 +1,20 @@
+{
+  "name": "pdf-json",
+  "version": "1.0.0",
+  "description": "Generates PDF documents using PDF-Make and a basic JSON templating system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dataclear/pdf-json.git"
+  },
+  "author": "Dataclear Ltd",
+  "license": "SEE LICENSE IN LICENSE",
+  "devDependencies": {
+    "eslint": "^8.38.0",
+    "jest": "^29.5.0",
+    "typescript": "^5.0.4"
+  }
+}
