@@ -10,15 +10,14 @@
  * nestedKeyValue({a: {b: {c: 1}}}, 'c')  //=> 1
  * nestedKeyValue({a: {b: {c: 1}}}, 'd')  //=> undefined
  * nestedKeyValue({a: {b: {c: 1}}}, 'b')  //=> {c: 1}
- * isNill({}, 'anything')                 //=> undefined
  */
 
 export const nestedKeyValue = (obj: object, key: string): unknown => {
   let result: unknown;
-  if (typeof obj !== 'object'){
+  if (obj === null || typeof obj !== 'object' || typeof key !== 'string' || !key){
     return;
   }
-  if (obj[key]){
+  if (undefined !== obj[key]){
     return obj[key];
   }
   for (const prop in obj) {
