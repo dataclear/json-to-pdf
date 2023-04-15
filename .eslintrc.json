@@ -48,6 +48,13 @@
             "argsIgnorePattern": "^_"
           }
         ],
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+              "varsIgnorePattern": "^_",
+              "argsIgnorePattern": "^_"
+          }
+        ],
         "no-magic-numbers": [
           "error",
           {
@@ -56,6 +63,7 @@
             "ignore": [-2,-1,0,1,2]
           }
         ],
-        "no-var": 1
+        "no-var": 1,
+        "no-prototype-builtins": "error"
     }
 }
