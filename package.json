@@ -4,10 +4,10 @@
   "description": "Generates PDF documents using PDF-Make and a basic JSON templating system",
   "main": "index.js",
   "scripts": {
-    "precompile": "rimraf --glob 'dist/lib'",
+    "precompile": "node ./bin/clean.js",
     "buildes6": "tsc",
     "buildes5": "tsc --build tsconfig.es5.json",
-    "compile": "npm run lint && tsc && tsc --build tsconfig.es5.json",
+    "compile": "npm run lint && tsc && tsc --build tsconfig.es5.json && npm run test",
     "lint": "eslint . --ext .ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
@@ -34,6 +34,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "moment": "^2.29.4",
     "pdfmake": "^0.2.7"
   }
 }
