@@ -2,7 +2,7 @@
  * Recursively iterates through object to find given key and returns value
  * 
  * @since v0.0.1
- * @category Helper
+ * @category Helpers
  * @param {*} obj - The object to search
  * @param {*} key - The key to find
  * @returns {*}
