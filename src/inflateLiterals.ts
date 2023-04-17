@@ -1,9 +1,8 @@
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { getTemplateLiteral } from './helpers/getTemplateLiteral';
 import { fixedFormulas } from './helpers/fixedFormulas';
 import { getObjectValue } from './helpers/getObjectValue';
-import { nestedKeyValue } from './helpers/nestedKeyValue';
 import type { Settings } from './types/interfaces';
 
 const REGEX_LITERAL_TEMPLATE = /{{[A-z0-9.]+[()A-z0-9.]*}}/gi;
@@ -18,11 +17,15 @@ const REGEX_LITERAL_TEMPLATE = /{{[A-z0-9.]+[()A-z0-9.]*}}/gi;
  * @param {object} data - The data to search for replacement values
  * @param {Settings} settings - Settings to control how they are
  * @returns {string}
- * @example
+ * @example <caption>Ignores plain text</caption>
  * inflateLiterals('test', {}, {})    //=> 'test'
+ * @example <caption>Replaces one or more placeholders</caption>
  * inflateLiterals('here is a {{val}}', {val: 'test'}, {})    //=> 'here is a test'
  * inflateLiterals('here is another {{val}}{{val}}', {val: 'test'}, {})    //=> 'here is a testtest'
- * inflateLiterals('here is a {{val.0}}', {val: ['test1', 'test2]}, {})    //=> 'here is a test1'
+ * @example <caption>Can extract positional values from arrays</caption>
+ * inflateLiterals('here is a {{val.1}}', {val: ['test1', 'test2']}, {})    //=> 'here is a test2'
+ * @example <caption>Or will comma separate full arrays</caption>
+ * inflateLiterals('here is a {{val}}', {val: ['test1', 'test2]}, {})    //=> 'here is a test1, test2'
  */
 export const inflateLiterals = (template: string, data: object, settings: Settings) : string | (() => string) => {
 
@@ -42,14 +45,7 @@ export const inflateLiterals = (template: string, data: object, settings: Settin
       const matchText : string = m.slice(2, -2);
       let objectValue: unknown = getObjectValue(data, matchText);
       if (Array.isArray(objectValue)){
-        const arrayItems = objectValue.map(a => {
-          if (typeof a === 'string'){
-            return a;
-          } else {
-            return nestedKeyValue(a, 'name');
-          }
-        });
-        objectValue = arrayItems.join('\n');
+        objectValue = objectValue.join(', ');
       } else if (objectValue instanceof Date && typeof objectValue.getMonth === 'function'){
         //convert from date
         objectValue = `${moment(objectValue).format(settings.dateFormat)}`;
