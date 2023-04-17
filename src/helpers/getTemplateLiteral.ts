@@ -7,11 +7,11 @@
  * @param {string} val - The string to process
  * @returns {string}
  * @example
- * getTemplateLiteral('test')    //=> ''
+ * getTemplateLiteral('test')        //=> ''
  * getTemplateLiteral('{{test}}')    //=> 'test'
- * getTemplateLiteral('{{{test}}}')    //=> '{test}'
+ * getTemplateLiteral('{{{test}}}')  //=> '{test}'
  * getTemplateLiteral('{{}}test')    //=> ''
- * getTemplateLiteral('{{}}')    //=> ''
+ * getTemplateLiteral('{{}}')        //=> ''
  */
 
 
