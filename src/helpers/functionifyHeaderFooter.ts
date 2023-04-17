@@ -1,3 +1,4 @@
+import { Content, DynamicContent } from 'pdfmake/interfaces';
 
 const fixedFormulas: object = {
   getPageXofY: function(currentPage: number, pageCount: number) {
@@ -13,14 +14,12 @@ const fixedFormulas: object = {
  * 
  * @since v0.0.1
  * @category Helpers
- * @param {unknown} node - The current object node
- * @param {object} data - The data to search for replacement values
- * @param {Settings} settings - Settings to control how they are
- * @returns {unknown}
+ * @param {DynamicContent | Content} node - The current object node
+ * @returns {DynamicContent | Content}
  * @example
  * processDataNode({test: '{{a}}'}, {a: 'b'}, {})    //=> {test: 'b'}
  */
-export const functionifyHeaderFooter = (node: unknown): unknown => {
+export const functionifyHeaderFooter = (node: DynamicContent | Content): DynamicContent | Content => {
 
   if (node == null || undefined === node) return undefined;
 

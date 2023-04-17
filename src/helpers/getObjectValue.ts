@@ -24,7 +24,7 @@ const inflationWhitelist = {
  * Inflates a set of fixed formula names with processed values
  * 
  * @since v0.0.1
- * @category Helper
+ * @category Helpers
  * @param {object} obj - The object to search
  * @param {string | Array<string>} path - The path to traverse
  * @returns {*}

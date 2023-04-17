@@ -7,8 +7,9 @@ export { isArrayFunction } from './helpers/isArrayFunction';
 export { nestedKeyValue } from './helpers/nestedKeyValue';
 
 // types
-export type { Settings } from './types/interfaces';
+export type { ExpandableDocDefinition, Settings } from './types/interfaces';
 
 // main
 export { inflateLiterals } from './inflateLiterals';
-export { processFunction, processDataNode } from './processDataNode';
+export { processFunction } from './processFunction';
+export { processDataNode } from './processDataNode';
