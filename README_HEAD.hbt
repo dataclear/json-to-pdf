@@ -1,0 +1,15 @@
+# PDF-JSON
+Generates PDF documents using PDF-Make and a basic JSON templating system.
+
+<br>
+<br>
+
+# API Documentation
+
+{{>main}}
+
+<br>
+<br>
+
+&copy; 2023 Dataclear Ltd<br>
+Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
