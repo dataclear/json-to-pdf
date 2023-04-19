@@ -1,10 +1,11 @@
 {
-  "name": "pdf-json",
+  "name": "json2pdf",
   "version": "0.0.1",
   "description": "Generates PDF documents using PDF-Make and a basic JSON templating system",
   "main": "index.ts",
   "scripts": {
-    "docs": ".\\node_modules\\.bin\\jsdoc2md --files ./src/**/*.ts --template ./README_HEAD.hbt --configure ./jsdoc2md.json > ./README.md",
+    "docs:cli": ".\\node_modules\\.bin\\jsdoc2md --files ./src/**/*.ts --template ./README_HEAD.hbt --configure ./jsdoc2md.json > ./dist/README.md",
+    "docs": "node ./bin/docs.js",
     "precompile": "node ./bin/clean.js",
     "buildes6": "tsc",
     "buildes5": "tsc --build tsconfig.es5.json",
@@ -16,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dataclear/pdf-json.git"
+    "url": "https://github.com/dataclear/json2pdf.git"
   },
   "author": "Dataclear Ltd",
   "license": "SEE LICENSE IN LICENSE",

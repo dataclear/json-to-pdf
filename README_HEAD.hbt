@@ -1,7 +1,6 @@
-# PDF-JSON
+# JSON2PDF
 Generates PDF documents using PDF-Make and a basic JSON templating system.
 
-<br>
 <br>
 
 # API Documentation

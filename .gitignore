@@ -145,3 +145,4 @@ dist
 
 # added manually
 dist/lib
+.npmrc
