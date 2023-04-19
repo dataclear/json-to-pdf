@@ -13,3 +13,4 @@ export type { ExpandableDocDefinition, Settings } from './types/interfaces';
 export { inflateLiterals } from './inflateLiterals';
 export { processFunction } from './processFunction';
 export { processDataNode } from './processDataNode';
+export { renderPdfTemplate } from './renderPdfTemplate';

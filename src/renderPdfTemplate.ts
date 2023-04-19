@@ -10,6 +10,34 @@ import type { ExpandableDocDefinition } from './types/interfaces';
 
 const DEFAULT_DATE_FORMAT = 'D MMM YY';
 
+const keyBlacklist: Array<string> = [
+  '__defineGetter__',
+  '__defineSetter__',
+  '__lookupGetter__',
+  '__lookupSetter__',
+  '__proto__',
+  'constructor',
+  'hasOwnProperty',
+  'isPrototypeOf',
+  'propertyIsEnumerable',
+  'toLocaleString',
+  'toString',
+  'valueOf',
+];
+
+const blacklistReviver = (_key: unknown, value: unknown) => {
+
+  if (value && typeof value == 'object'){
+    Object.keys(value).forEach(k => {
+      if (keyBlacklist.includes(k)) return null;
+    });
+  }
+
+  return value;
+
+};
+
+
 /**
  * Inflates a json template into a PDFMake document definition, then renders the definition to a PDF file
  * 
@@ -19,7 +47,7 @@ const DEFAULT_DATE_FORMAT = 'D MMM YY';
  * @param {object} data - The data to use for inflated values
  * @returns {stream}
  */
-export const renderPdfTemplate = async (docDefinition: ExpandableDocDefinition | string, data: object): Promise<unknown> => {
+export const renderPdfTemplate = (docDefinition: ExpandableDocDefinition | string, data: object): unknown => {
 
 
   try {
@@ -37,9 +65,14 @@ export const renderPdfTemplate = async (docDefinition: ExpandableDocDefinition |
     let expandableDocDefinition: ExpandableDocDefinition;
     
     if (typeof docDefinition == 'string') {
-      expandableDocDefinition = JSON.parse(docDefinition);
+      expandableDocDefinition = JSON.parse(docDefinition, blacklistReviver);
     } else {
-      expandableDocDefinition = structuredClone(docDefinition);
+
+      if (typeof structuredClone == 'function'){
+        expandableDocDefinition = structuredClone(docDefinition);
+      } else {
+        expandableDocDefinition = JSON.parse(JSON.stringify(docDefinition));
+      }
 
     }
     
@@ -60,7 +93,6 @@ export const renderPdfTemplate = async (docDefinition: ExpandableDocDefinition |
   
     if (!docDefinitionObject.defaultStyle) docDefinitionObject.defaultStyle = {};
     if (!docDefinitionObject.defaultStyle.font) docDefinitionObject.defaultStyle.font = Object.keys(defaultFonts)[0];
-  
   
     const pdfDocumentBuffer = printer.createPdfKitDocument(docDefinitionObject);
   
