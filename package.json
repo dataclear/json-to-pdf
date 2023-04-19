@@ -6,7 +6,7 @@
   "scripts": {
     "docs:cli": ".\\node_modules\\.bin\\jsdoc2md --files ./src/**/*.ts --template ./README_HEAD.hbt --configure ./jsdoc2md.json > ./dist/README.md",
     "docs": "node ./bin/docs.js",
-    "precompile": "node ./bin/clean.js",
+    "precompile": "node ./bin/clean.js && node ./bin/package.js",
     "buildes6": "tsc",
     "buildes5": "tsc --build tsconfig.es5.json",
     "compile": "npm run lint && npm run buildes6 && npm run buildes5 && npm run test && npm run docs",
@@ -19,7 +19,14 @@
     "type": "git",
     "url": "https://github.com/dataclear/json-to-pdf.git"
   },
-  "author": "Dataclear Ltd",
+  "author": {
+    "name": "Dataclear Ltd",
+    "email": "info@dataclear.co.uk"
+  },
+  "bugs": {
+    "url": "https://github.com/dataclear/json-to-pdf/issues"
+  },
+  "homepage": "https://github.com/dataclear/json-to-pdf#readme",
   "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
     "@babel/cli": "^7.21.0",
