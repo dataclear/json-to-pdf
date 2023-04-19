@@ -1,5 +1,123 @@
 # json-to-pdf
-Generates PDF documents using PDF-Make and a basic JSON templating system.
+Generates PDF documents using PDF-Make and a basic JSON templating system similar to handlebars.
+
+## Usage
+
+JSON templates are used which match the format of PDFMake document definition objects:
+
+```json
+{
+  "pageSize":"A4",
+  "pageOrientation":"portrait",
+  "pageMargins":[25, 25, 25, 25],
+  "content":[
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam.",
+    {
+      "text":"This text should appear on the second page",
+      "pageBreak":"before"
+    }
+  ]
+}
+```
+
+These templates can be expanded using data to create rich documents:
+
+Template:
+```json
+{
+  "pageSize":"A4",
+  "pageOrientation":"portrait",
+  "pageMargins":[25, 25, 25, 25],
+  "content":[
+    "{{loremipsum}}",
+    {
+      "text":"page2.text",
+      "pageBreak":"before"
+    }
+  ]
+}
+```
+
+Data:
+```js
+const data = {
+  loremipsum: 'Lorem ipsum...naturam.',
+  page2text: {
+    text: 'This text should appear on the second page'
+  }
+}
+```
+
+Code:
+```js
+import * as jsonToPdf from 'jon-to-pdf';
+
+const pdfStream = jsonToPdf.renderPdfTemplate(template, data);
+const fileStream = createWriteStream('./example.pdf');
+pdfStream.pipe(fileStream);
+pdfStream.end();
+```
+
+There are several helpers available to expand the JSON templates.
+
+## each
+Repeats for each item in a supplied array
+
+```json
+[
+  "{{#each lines:line}}": {
+    "text": "{{line}}"
+  }
+]
+```
+
+With `data = ['a','b']` will inflate to:
+
+```json
+[
+  {
+    "text": "a"
+  },
+  {
+    "text": "b"
+  }
+]
+```
+
+## if
+
+Only includes value if supplied variable is truthy:
+```json
+{
+  "{{#if test}}": {
+    "text": "{{text}}"
+  }
+}
+```
+With `data = {test: true, text: 'show me'}` will inflate to:
+
+```json
+{
+  "text": "show me"
+}
+```
+
+## unless
+
+Like if, but will include value if the supplied variable is falsy:
+```json
+{
+  "{{#unless test}}": {
+    "text": "{{text}}"
+  }
+}
+```
+With `data = {test: true, text: 'don\'t show me'}` will inflate to:
+
+```json
+{}
+```
+
 
 <br>
 
@@ -66,12 +184,7 @@ Inflates a set of fixed formula names with processed values</p>
 
 **Example**  
 ```js
-getObjectValue({a: {b: {c: 1}}}, 'a.b.c')    //=> 1
-getObjectValue({a: {b: {c: 1}}}, 'a.b.c.d')  //=> undefined
-getObjectValue({a: {b: {c: 1}}}, 'a..b..c')  //=> undefined
-getObjectValue({a: {b: {c: 1}}}, 'c')        //=> undefined
-getObjectValue({a: {b: {c: [1,2,3]}}}, 'a.b.c.1')        //=> 2
-getObjectValue({a: {b: {c: 6}}}, 'a.b.c.toFixed(2)')        //=> '6.00'
+getObjectValue({a: {b: {c: 1}}}, 'a.b.c')    //=> 1getObjectValue({a: {b: {c: 1}}}, 'a.b.c.d')  //=> undefinedgetObjectValue({a: {b: {c: 1}}}, 'a..b..c')  //=> undefinedgetObjectValue({a: {b: {c: 1}}}, 'c')        //=> undefinedgetObjectValue({a: {b: {c: [1,2,3]}}}, 'a.b.c.1')        //=> 2getObjectValue({a: {b: {c: 6}}}, 'a.b.c.toFixed(2)')        //=> '6.00'
 ```
 
 * * *
@@ -91,11 +204,7 @@ getObjectValue({a: {b: {c: 6}}}, 'a.b.c.toFixed(2)')        //=> '6.00'
 
 **Example**  
 ```js
-getTemplateLiteral('test')        //=> ''
-getTemplateLiteral('{{test}}')    //=> 'test'
-getTemplateLiteral('{{{test}}}')  //=> '{test}'
-getTemplateLiteral('{{}}test')    //=> ''
-getTemplateLiteral('{{}}')        //=> ''
+getTemplateLiteral('test')        //=> ''getTemplateLiteral('{{test}}')    //=> 'test'getTemplateLiteral('{{{test}}}')  //=> '{test}'getTemplateLiteral('{{}}test')    //=> ''getTemplateLiteral('{{}}')        //=> ''
 ```
 
 * * *
@@ -115,8 +224,7 @@ getTemplateLiteral('{{}}')        //=> ''
 
 **Example**  
 ```js
-isArrayFunction({a: 1, '{{#each a:b}}': {b: 2}, c: 3})    //=> true
-isArrayFunction({a: 1, b: 2, c: 3})    //=> false
+isArrayFunction({a: 1, '{{#each a:b}}': {b: 2}, c: 3})    //=> trueisArrayFunction({a: 1, b: 2, c: 3})    //=> false
 ```
 
 * * *
@@ -137,9 +245,7 @@ isArrayFunction({a: 1, b: 2, c: 3})    //=> false
 
 **Example**  
 ```js
-nestedKeyValue({a: {b: {c: 1}}}, 'c')  //=> 1
-nestedKeyValue({a: {b: {c: 1}}}, 'd')  //=> undefined
-nestedKeyValue({a: {b: {c: 1}}}, 'b')  //=> {c: 1}
+nestedKeyValue({a: {b: {c: 1}}}, 'c')  //=> 1nestedKeyValue({a: {b: {c: 1}}}, 'd')  //=> undefinednestedKeyValue({a: {b: {c: 1}}}, 'b')  //=> {c: 1}
 ```
 
 * * *
