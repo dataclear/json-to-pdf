@@ -1,3 +1,11 @@
+# PDF-JSON
+Generates PDF documents using PDF-Make and a basic JSON templating system.
+
+<br>
+<br>
+
+# API Documentation
+
 ## Functions
 
 <dl>
@@ -195,3 +203,9 @@ processFunction('{{#each items:item}}', {text: '{{item}}'}, {items: ['a', 'b', '
 | docDefinition | <code>ExpandableDocDefinition</code> | <p>The JSON string or object definition to inflate</p> |
 | data | <code>object</code> | <p>The data to use for inflated values</p> |
 
+
+<br>
+<br>
+
+&copy; 2023 Dataclear Ltd<br>
+Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).

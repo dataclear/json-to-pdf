@@ -4,7 +4,7 @@
   "description": "Generates PDF documents using PDF-Make and a basic JSON templating system",
   "main": "index.ts",
   "scripts": {
-    "docs": ".\\node_modules\\.bin\\jsdoc2md --files ./src/**/*.ts --configure ./jsdoc2md.json > ./README.md",
+    "docs": ".\\node_modules\\.bin\\jsdoc2md --files ./src/**/*.ts --template ./README_HEAD.hbt --configure ./jsdoc2md.json > ./README.md",
     "precompile": "node ./bin/clean.js",
     "buildes6": "tsc",
     "buildes5": "tsc --build tsconfig.es5.json",
