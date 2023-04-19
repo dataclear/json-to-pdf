@@ -1,6 +1,6 @@
 {
   "name": "json-to-pdf",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Generates PDF documents using PDF-Make and a basic JSON templating system",
   "main": "index.ts",
   "scripts": {
