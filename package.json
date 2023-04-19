@@ -1,5 +1,5 @@
 {
-  "name": "json2pdf",
+  "name": "json-to-pdf",
   "version": "0.0.1",
   "description": "Generates PDF documents using PDF-Make and a basic JSON templating system",
   "main": "index.ts",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dataclear/json2pdf.git"
+    "url": "https://github.com/dataclear/json-to-pdf.git"
   },
   "author": "Dataclear Ltd",
   "license": "SEE LICENSE IN LICENSE",

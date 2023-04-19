@@ -1,4 +1,4 @@
-# JSON2PDF
+# json-to-pdf
 Generates PDF documents using PDF-Make and a basic JSON templating system.
 
 <br>
@@ -66,7 +66,12 @@ Inflates a set of fixed formula names with processed values</p>
 
 **Example**  
 ```js
-getObjectValue({a: {b: {c: 1}}}, 'a.b.c')    //=> 1getObjectValue({a: {b: {c: 1}}}, 'a.b.c.d')  //=> undefinedgetObjectValue({a: {b: {c: 1}}}, 'a..b..c')  //=> undefinedgetObjectValue({a: {b: {c: 1}}}, 'c')        //=> undefinedgetObjectValue({a: {b: {c: [1,2,3]}}}, 'a.b.c.1')        //=> 2getObjectValue({a: {b: {c: 6}}}, 'a.b.c.toFixed(2)')        //=> '6.00'
+getObjectValue({a: {b: {c: 1}}}, 'a.b.c')    //=> 1
+getObjectValue({a: {b: {c: 1}}}, 'a.b.c.d')  //=> undefined
+getObjectValue({a: {b: {c: 1}}}, 'a..b..c')  //=> undefined
+getObjectValue({a: {b: {c: 1}}}, 'c')        //=> undefined
+getObjectValue({a: {b: {c: [1,2,3]}}}, 'a.b.c.1')        //=> 2
+getObjectValue({a: {b: {c: 6}}}, 'a.b.c.toFixed(2)')        //=> '6.00'
 ```
 
 * * *
@@ -86,7 +91,11 @@ getObjectValue({a: {b: {c: 1}}}, 'a.b.c')    //=> 1getObjectValue({a: {b: {c: 1
 
 **Example**  
 ```js
-getTemplateLiteral('test')        //=> ''getTemplateLiteral('{{test}}')    //=> 'test'getTemplateLiteral('{{{test}}}')  //=> '{test}'getTemplateLiteral('{{}}test')    //=> ''getTemplateLiteral('{{}}')        //=> ''
+getTemplateLiteral('test')        //=> ''
+getTemplateLiteral('{{test}}')    //=> 'test'
+getTemplateLiteral('{{{test}}}')  //=> '{test}'
+getTemplateLiteral('{{}}test')    //=> ''
+getTemplateLiteral('{{}}')        //=> ''
 ```
 
 * * *
@@ -106,7 +115,8 @@ getTemplateLiteral('test')        //=> ''getTemplateLiteral('{{test}}')    //=>
 
 **Example**  
 ```js
-isArrayFunction({a: 1, '{{#each a:b}}': {b: 2}, c: 3})    //=> trueisArrayFunction({a: 1, b: 2, c: 3})    //=> false
+isArrayFunction({a: 1, '{{#each a:b}}': {b: 2}, c: 3})    //=> true
+isArrayFunction({a: 1, b: 2, c: 3})    //=> false
 ```
 
 * * *
@@ -127,7 +137,9 @@ isArrayFunction({a: 1, '{{#each a:b}}': {b: 2}, c: 3})    //=> trueisArrayFunct
 
 **Example**  
 ```js
-nestedKeyValue({a: {b: {c: 1}}}, 'c')  //=> 1nestedKeyValue({a: {b: {c: 1}}}, 'd')  //=> undefinednestedKeyValue({a: {b: {c: 1}}}, 'b')  //=> {c: 1}
+nestedKeyValue({a: {b: {c: 1}}}, 'c')  //=> 1
+nestedKeyValue({a: {b: {c: 1}}}, 'd')  //=> undefined
+nestedKeyValue({a: {b: {c: 1}}}, 'b')  //=> {c: 1}
 ```
 
 * * *
