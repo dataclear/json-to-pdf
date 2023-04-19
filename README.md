@@ -1,7 +1,6 @@
-# PDF-JSON
+# json-to-pdf
 Generates PDF documents using PDF-Make and a basic JSON templating system.
 
-<br>
 <br>
 
 # API Documentation
@@ -47,6 +46,9 @@ Inflates a set of fixed formula names with processed values</p></dd>
 ```js
 processDataNode({test: '{{a}}'}, {a: 'b'}, {})    //=> {test: 'b'}
 ```
+
+* * *
+
 <a name="getObjectValue"></a>
 
 ## getObjectValue(obj, path) ⇒ <code>\*</code>
@@ -64,8 +66,16 @@ Inflates a set of fixed formula names with processed values</p>
 
 **Example**  
 ```js
-getObjectValue({a: {b: {c: 1}}}, 'a.b.c')    //=> 1getObjectValue({a: {b: {c: 1}}}, 'a.b.c.d')  //=> undefinedgetObjectValue({a: {b: {c: 1}}}, 'a..b..c')  //=> undefinedgetObjectValue({a: {b: {c: 1}}}, 'c')        //=> undefinedgetObjectValue({a: {b: {c: [1,2,3]}}}, 'a.b.c.1')        //=> 2getObjectValue({a: {b: {c: 6}}}, 'a.b.c.toFixed(2)')        //=> '6.00'
+getObjectValue({a: {b: {c: 1}}}, 'a.b.c')    //=> 1
+getObjectValue({a: {b: {c: 1}}}, 'a.b.c.d')  //=> undefined
+getObjectValue({a: {b: {c: 1}}}, 'a..b..c')  //=> undefined
+getObjectValue({a: {b: {c: 1}}}, 'c')        //=> undefined
+getObjectValue({a: {b: {c: [1,2,3]}}}, 'a.b.c.1')        //=> 2
+getObjectValue({a: {b: {c: 6}}}, 'a.b.c.toFixed(2)')        //=> '6.00'
 ```
+
+* * *
+
 <a name="getTemplateLiteral"></a>
 
 ## getTemplateLiteral(val) ⇒ <code>string</code>
@@ -81,8 +91,15 @@ getObjectValue({a: {b: {c: 1}}}, 'a.b.c')    //=> 1getObjectValue({a: {b: {c: 1
 
 **Example**  
 ```js
-getTemplateLiteral('test')        //=> ''getTemplateLiteral('{{test}}')    //=> 'test'getTemplateLiteral('{{{test}}}')  //=> '{test}'getTemplateLiteral('{{}}test')    //=> ''getTemplateLiteral('{{}}')        //=> ''
+getTemplateLiteral('test')        //=> ''
+getTemplateLiteral('{{test}}')    //=> 'test'
+getTemplateLiteral('{{{test}}}')  //=> '{test}'
+getTemplateLiteral('{{}}test')    //=> ''
+getTemplateLiteral('{{}}')        //=> ''
 ```
+
+* * *
+
 <a name="isArrayFunction"></a>
 
 ## isArrayFunction(element) ⇒ <code>boolean</code>
@@ -98,8 +115,12 @@ getTemplateLiteral('test')        //=> ''getTemplateLiteral('{{test}}')    //=>
 
 **Example**  
 ```js
-isArrayFunction({a: 1, '{{#each a:b}}': {b: 2}, c: 3})    //=> trueisArrayFunction({a: 1, b: 2, c: 3})    //=> false
+isArrayFunction({a: 1, '{{#each a:b}}': {b: 2}, c: 3})    //=> true
+isArrayFunction({a: 1, b: 2, c: 3})    //=> false
 ```
+
+* * *
+
 <a name="nestedKeyValue"></a>
 
 ## nestedKeyValue(obj, key) ⇒ <code>\*</code>
@@ -116,8 +137,13 @@ isArrayFunction({a: 1, '{{#each a:b}}': {b: 2}, c: 3})    //=> trueisArrayFunct
 
 **Example**  
 ```js
-nestedKeyValue({a: {b: {c: 1}}}, 'c')  //=> 1nestedKeyValue({a: {b: {c: 1}}}, 'd')  //=> undefinednestedKeyValue({a: {b: {c: 1}}}, 'b')  //=> {c: 1}
+nestedKeyValue({a: {b: {c: 1}}}, 'c')  //=> 1
+nestedKeyValue({a: {b: {c: 1}}}, 'd')  //=> undefined
+nestedKeyValue({a: {b: {c: 1}}}, 'b')  //=> {c: 1}
 ```
+
+* * *
+
 <a name="inflateLiterals"></a>
 
 ## inflateLiterals(template, data, settings) ⇒ <code>string</code>
@@ -150,6 +176,9 @@ inflateLiterals('here is a {{val.1}}', {val: ['test1', 'test2']}, {})    //=> 'h
 ```js
 inflateLiterals('here is a {{val}}', {val: ['test1', 'test2]}, {})    //=> 'here is a test1, test2'
 ```
+
+* * *
+
 <a name="processDataNode"></a>
 
 ## processDataNode(val, data, settings) ⇒ <code>unknown</code>
@@ -169,6 +198,9 @@ inflateLiterals('here is a {{val}}', {val: ['test1', 'test2]}, {})    //=> 'here
 ```js
 processDataNode({test: '{{a}}'}, {a: 'b'}, {})    //=> {test: 'b'}
 ```
+
+* * *
+
 <a name="processFunction"></a>
 
 ## processFunction(functionKey, object, data, settings) ⇒ <code>unknown</code>
@@ -189,6 +221,9 @@ processDataNode({test: '{{a}}'}, {a: 'b'}, {})    //=> {test: 'b'}
 ```js
 processFunction('{{#each items:item}}', {text: '{{item}}'}, {items: ['a', 'b', 'c']}, {})    //=> '[{text: 'a'},{text: 'b'},{text: 'c'}]'
 ```
+
+* * *
+
 <a name="renderPdfTemplate"></a>
 
 ## renderPdfTemplate(docDefinition, data) ⇒ <code>stream</code>
@@ -202,6 +237,9 @@ processFunction('{{#each items:item}}', {text: '{{item}}'}, {items: ['a', 'b', '
 | --- | --- | --- |
 | docDefinition | <code>ExpandableDocDefinition</code> | <p>The JSON string or object definition to inflate</p> |
 | data | <code>object</code> | <p>The data to use for inflated values</p> |
+
+
+* * *
 
 
 <br>
