@@ -1,6 +1,7 @@
 
 import * as fs from 'fs';
 import PdfPrinter from 'pdfmake';
+import { TFontDictionary } from 'pdfmake/interfaces';
 
 import { functionifyHeaderFooter } from './helpers/functionifyHeaderFooter';
 import { processDataNode } from './processDataNode';
@@ -29,7 +30,10 @@ const blacklistReviver = (_key: unknown, value: unknown) => {
 
   if (value && typeof value == 'object'){
     Object.keys(value).forEach(k => {
-      if (keyBlacklist.includes(k)) return null;
+      if (keyBlacklist.includes(k)) {
+        console.info('Removed blacklisted key ' + String(k));
+        return null;
+      }
     });
   }
 
@@ -47,15 +51,20 @@ const blacklistReviver = (_key: unknown, value: unknown) => {
  * @param {object} data - The data to use for inflated values
  * @returns {stream}
  */
-export const renderPdfTemplate = (docDefinition: ExpandableDocDefinition | string, data: object): unknown => {
+export const renderPdfTemplate = (docDefinition: ExpandableDocDefinition | string, data?: object, fontFile?: TFontDictionary): unknown => {
 
 
   try {
 
+    const fonts: TFontDictionary = {};
+
+    if (defaultFonts) Object.assign(fonts, defaultFonts);
+    if (fontFile) Object.assign(fonts, fontFile);
+
     if (docDefinition === null) return undefined;
     if (docDefinition === undefined) return undefined;
 
-    const printer = new PdfPrinter(defaultFonts);
+    const printer = new PdfPrinter(fonts);
 
     if (docDefinition && typeof docDefinition == 'object' && docDefinition.path){
       // passed document location not template, inflate
