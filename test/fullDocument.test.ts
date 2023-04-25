@@ -88,12 +88,42 @@ const testDocumentDefinition = {
   },
 };
 
+const jsonReviverTemplate = `
+{
+  "pageSize": "A4",
+  "pageOrientation": "portrait",
+  "pageMargins": [25, 155, 25, 100],
+  "content": [
+    "Test content"
+  ],
+  "__proto__": "test"
+}
+`;
+
 
 describe('renderPdfTemplate', ()=> {
 
   it('returns a valid document stream', async () => {
 
     const pdfDoc = renderPdfTemplate(testDocumentDefinition, testData);
+
+    pdfDoc.toArray().then(bufferData => {
+      expect(bufferData).toBeInstanceOf(Buffer);
+      expect(bufferData && bufferData[0]).toBe(0x25);
+      expect(bufferData && bufferData[1]).toBe(0x50);
+      expect(bufferData && bufferData[2]).toBe(0x44);
+      expect(bufferData && bufferData[3]).toBe(0x46);
+    });
+
+  });
+
+  it('can accept a JSON string and will remove blacklisted keys', () => {
+
+    console.info = jest.fn();
+
+    const pdfDoc = renderPdfTemplate(jsonReviverTemplate, {});
+
+    expect(console.info.mock.calls[0][0]).toBe('Removed blacklisted key __proto__');
 
     pdfDoc.toArray().then(bufferData => {
       expect(bufferData).toBeInstanceOf(Buffer);

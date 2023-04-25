@@ -31,7 +31,7 @@ Template:
   "content":[
     "{{loremipsum}}",
     {
-      "text":"page2.text",
+      "text":"{{page2.text}}",
       "pageBreak":"before"
     }
   ]
@@ -42,7 +42,7 @@ Data:
 ```js
 const data = {
   loremipsum: 'Lorem ipsum...naturam.',
-  page2text: {
+  page2: {
     text: 'This text should appear on the second page'
   }
 }
@@ -50,7 +50,7 @@ const data = {
 
 Code:
 ```js
-import * as jsonToPdf from 'jon-to-pdf';
+import * as jsonToPdf from 'json-to-pdf';
 
 const pdfStream = jsonToPdf.renderPdfTemplate(template, data);
 const fileStream = createWriteStream('./example.pdf');
@@ -116,4 +116,65 @@ With `data = {test: true, text: 'don\'t show me'}` will inflate to:
 
 ```json
 {}
+```
+
+## equal
+Only includes value if first supplied value equals the second:
+
+```json
+{
+  "{{#equal 6:{{test}}}}": {
+    "text": "{{text}}"
+  }
+}
+```
+With `data = {test: 6, text: 'show me'}` will inflate to:
+
+```json
+{
+  "text": "show me"
+}
+```
+
+## notequal
+Only includes value if first supplied value equals the second:
+
+```json
+{
+  "{{#notequal 6:{{test}}}}": {
+    "text": "{{text}}"
+  }
+}
+```
+With `data = {test: 6, text: 'don\'tshow me'}` will inflate to:
+
+```json
+{}
+```
+
+## Fonts
+
+As standard, the fonts available are:
+
+- Courier
+- Helvetica
+- Times
+- Symbol
+- ZapfDingbats
+
+To use custom fonts, you can use the third argument of the <a href="#renderPdfTemplate">`renderPdfTemplate`</a> method to supply a font object:
+
+```js
+
+const customFonts = {
+  Roboto: {
+    normal: './path/to/font/Roboto-Regular.ttf',
+    bold: './path/to/font/Roboto-Medium.ttf',
+    italics: './path/to/font/Roboto-Italic.ttf',
+    bolditalics: './path/to/font/Roboto-MediumItalic.ttf'
+  }
+}
+
+const pdfDoc = renderPdfTemplate(template, data, customFonts);
+
 ```
