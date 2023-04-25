@@ -1,5 +1,5 @@
 {
-  "name": "json-to-pdf",
+  "name": "@dataclear/json-to-pdf",
   "version": "0.1.1",
   "description": "Generates PDF documents using PDF-Make and a basic JSON templating system",
   "main": "index.ts",
@@ -11,7 +11,8 @@
     "buildes5": "tsc --build tsconfig.es5.json",
     "compile": "npm run lint && npm run buildes6 && npm run buildes5 && npm run test && npm run docs",
     "lint": "eslint . --ext .ts",
-    "test": "jest",
+    "test": "jest --isolatedModules=true",
+    "clear_jest": "jest --clearCache",
     "test:coverage": "jest --coverage",
     "test:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
